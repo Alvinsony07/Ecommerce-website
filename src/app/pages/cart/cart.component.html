@@ -1,0 +1,103 @@
+<div class="cart-page">
+  <div class="cart-header">
+    <h1>🛒 Shopping Cart</h1>
+  </div>
+
+  @if(cartItems.length > 0) {
+    <div class="cart-container">
+      <!-- Cart Items -->
+      <div class="cart-items">
+        @for(item of cartItems; track item.id) {
+          <div class="cart-item">
+            <div class="item-image">
+              <img [src]="item.image" [alt]="item.title" />
+            </div>
+            
+            <div class="item-details">
+              <h3 class="item-title">{{ item.title }}</h3>
+              <p class="item-category">{{ item.category }}</p>
+              <p class="item-price">${{ item.price }}</p>
+            </div>
+            
+            <div class="item-controls">
+              <div class="quantity-controls">
+                <button 
+                  class="quantity-btn" 
+                  (click)="decreaseQuantity(item.id)">
+                  -
+                </button>
+                <span class="quantity-display">{{ item.quantity }}</span>
+                <button 
+                  class="quantity-btn" 
+                  (click)="increaseQuantity(item.id)">
+                  +
+                </button>
+              </div>
+              
+              <div class="item-total">
+                <strong>${{ (item.price * item.quantity).toFixed(2) }}</strong>
+              </div>
+              
+              <button 
+                class="remove-btn" 
+                (click)="removeItem(item.id)"
+                title="Remove item">
+                🗑️
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Cart Summary -->
+      <div class="cart-summary">
+        <div class="summary-card">
+          <h3>Order Summary</h3>
+          
+          <div class="summary-row">
+            <span>Total Items:</span>
+            <span>{{ totalItems }}</span>
+          </div>
+          
+          <div class="summary-row">
+            <span>Subtotal:</span>
+            <span>${{ totalPrice.toFixed(2) }}</span>
+          </div>
+          
+          <div class="summary-row">
+            <span>Shipping:</span>
+            <span>Free</span>
+          </div>
+          
+          <div class="summary-row total-row">
+            <strong>Total: ${{ totalPrice.toFixed(2) }}</strong>
+          </div>
+          
+          <div class="summary-actions">
+            <button 
+              class="checkout-btn" 
+              (click)="proceedToCheckout()">
+              Proceed to Checkout
+            </button>
+            
+            <button 
+              class="clear-cart-btn" 
+              (click)="clearCart()">
+              Clear Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <!-- Empty Cart -->
+    <div class="empty-cart">
+      <div class="empty-cart-icon">🛒</div>
+      <h2>Your cart is empty</h2>
+      <p>Looks like you haven't added any items to your cart yet.</p>
+      <a routerLink="/" class="continue-shopping-btn">
+        ← Continue Shopping
+      </a>
+    </div>
+  }
+</div>

@@ -1,0 +1,83 @@
+<div class="product-page">
+  <div class="product-header">
+    <h1>Product Details</h1>
+  </div>
+    
+  @if(product) {
+    <div class="product-container">
+      <div class="product-content">
+        <div class="product-image-container">
+          <img [src]="product.image" [alt]="product.title" class="product-image" />
+        </div>
+         
+        <div class="product-details">
+          <div class="category-badge">{{ product.category }}</div>
+          <h1 class="product-title">{{ product.title }}</h1>
+           
+          <div class="rating-container">
+            <div class="stars" [style.--rating]="product.rating.rate"></div>
+            <span class="rating-count">({{ product.rating.count }} reviews)</span>
+          </div>
+           
+          <div class="price-container">
+            <span class="price">${{ product.price }}</span>
+          </div>
+           
+          <p class="product-description">{{ product.description }}</p>
+
+          <!-- Quantity Selector -->
+          <div class="quantity-container">
+            <label for="quantity">Quantity:</label>
+            <div class="quantity-controls">
+              <button 
+                class="quantity-btn" 
+                (click)="decrementQuantity()"
+                [disabled]="quantity <= 1">
+                -
+              </button>
+              <span class="quantity-display">{{ quantity }}</span>
+              <button 
+                class="quantity-btn" 
+                (click)="incrementQuantity()">
+                +
+              </button>
+            </div>
+          </div>
+
+          <!-- Cart Status Display (optional) -->
+          @if(isInCart()) {
+            <div class="cart-status">
+              <span class="in-cart-indicator">
+                ✓ {{ getCartQuantity() }} in cart
+              </span>
+            </div>
+          }
+           
+          <div class="action-buttons">
+            <button 
+              class="add-to-cart-btn" 
+              (click)="addToCart()"
+              [disabled]="isAddingToCart">
+              @if(isAddingToCart) {
+                <span>Adding...</span>
+              } @else {
+                <span>Add to Cart</span>
+              }
+            </button>
+            <button 
+              class="buy-now-btn" 
+              (click)="buyNow()">
+              Buy Now
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  } @else {               
+    <div class="product-container">
+      <div class="product-content">
+        <h1>Loading ...</h1>
+      </div>
+    </div>     
+  }
+</div>
